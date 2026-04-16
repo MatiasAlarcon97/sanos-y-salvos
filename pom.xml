@@ -24,9 +24,9 @@
     </properties>
 
     <modules>
-        <module>ms-mascotas</module>
-        <module>ms-geolocalizacion</module>
-        <module>ms-coincidencias</module>
+        <module>backend/ms-mascotas</module>
+        <module>backend/ms-geolocalizacion</module>
+        <module>backend/ms-coincidencias</module>
     </modules>
 
 </project>
