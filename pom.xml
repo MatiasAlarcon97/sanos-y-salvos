@@ -29,4 +29,12 @@
         <module>ms-coincidencias</module>
     </modules>
 
+    <modules>
+        <module>backend/ms-mascotas</module>
+        <module>backend/ms-geolocalizacion</module>
+        <module>backend/ms-coincidencias</module>
+        <module>api-gateway</module>
+    </modules>
+
+
 </project>
