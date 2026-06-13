@@ -13,10 +13,13 @@ import java.util.Optional;
 public class MascotaService {
 
     private final MascotaRepository repository;
+    private final CoincidenciaClientService coincidenciaClientService;
 
     public Mascota crear(Mascota mascota) {
         mascota.setFechaReporte(LocalDateTime.now());
-        return repository.save(mascota);
+        Mascota guardada = repository.save(mascota);
+        coincidenciaClientService.buscarYRegistrarCoincidencias(guardada);
+        return guardada;
     }
 
     public List<Mascota> listar() {

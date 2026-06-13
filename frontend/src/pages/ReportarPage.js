@@ -112,7 +112,9 @@ function ReportarPage() {
               <input style={inputStyle} name="contacto" value={form.contacto} onChange={handleChange} placeholder="Ej: 912345678" />
             </div>
             <div style={{ marginTop: '12px' }}>
-              <label style={labelStyle}>Fecha de desaparición</label>
+              <label style={labelStyle}>
+                {form.estado === 'perdida' ? 'Fecha de desaparición' : 'Fecha de avistamiento'}
+              </label>
               <input style={inputStyle} type="date" name="fechaDesaparicion" value={form.fechaDesaparicion} onChange={handleChange} />
             </div>
           </div>

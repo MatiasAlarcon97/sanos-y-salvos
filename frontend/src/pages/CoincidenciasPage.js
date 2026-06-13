@@ -1,14 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { listarCoincidencias } from '../services/coincidenciaService';
+import { obtenerMascota } from '../services/mascotaService';
 
 function CoincidenciasPage() {
   const [coincidencias, setCoincidencias] = useState([]);
+  const [mascotas, setMascotas] = useState({});
 
   useEffect(() => {
     listarCoincidencias()
-      .then(response => setCoincidencias(response.data))
+      .then(async response => {
+        const data = response.data;
+        setCoincidencias(data);
+
+        const ids = new Set();
+        data.forEach(c => {
+          ids.add(c.mascotaPerdidaId);
+          ids.add(c.mascotaEncontradaId);
+        });
+
+        const mascotasMap = {};
+        await Promise.all(
+          [...ids].map(id =>
+            obtenerMascota(id)
+              .then(res => { mascotasMap[id] = res.data; })
+              .catch(() => { mascotasMap[id] = { nombre: 'Desconocida', raza: '-' }; })
+          )
+        );
+        setMascotas(mascotasMap);
+      })
       .catch(error => console.error('Error al cargar coincidencias:', error));
   }, []);
+
+  const getNombre = (id) => mascotas[id]?.nombre || id;
+  const getRaza = (id) => mascotas[id]?.raza || '-';
+  const getColor = (id) => mascotas[id]?.color || '-';
 
   return (
     <div style={{ padding: '28px 32px' }}>
@@ -24,9 +49,9 @@ function CoincidenciasPage() {
       <div style={{ background: 'var(--white)', border: '0.5px solid var(--orange-light)', borderRadius: '12px', overflow: 'hidden' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: 'var(--white)' }}>
+            <tr>
               {['Mascota perdida', 'Mascota encontrada', 'Similitud', 'Observaciones', 'Estado', ''].map(h => (
-                <th key={h} style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '500', textAlign: 'left', padding: '10px 16px', borderBottom: '0.5px solid var(--orange-border)' }}>
+                <th key={h} style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '500', textAlign: 'left', padding: '10px 16px', borderBottom: '0.5px solid var(--orange-border)', background: 'var(--white)' }}>
                   {h}
                 </th>
               ))}
@@ -36,10 +61,12 @@ function CoincidenciasPage() {
             {coincidencias.map(c => (
               <tr key={c.id}>
                 <td style={{ padding: '14px 16px', borderBottom: '0.5px solid var(--orange-border)' }}>
-                  <div style={{ fontSize: '13px', fontWeight: '500', color: 'var(--text-primary)' }}>{c.mascotaPerdidaId}</div>
+                  <div style={{ fontSize: '13px', fontWeight: '500', color: 'var(--text-primary)' }}>{getNombre(c.mascotaPerdidaId)}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{getRaza(c.mascotaPerdidaId)} · {getColor(c.mascotaPerdidaId)}</div>
                 </td>
                 <td style={{ padding: '14px 16px', borderBottom: '0.5px solid var(--orange-border)' }}>
-                  <div style={{ fontSize: '13px', fontWeight: '500', color: 'var(--text-primary)' }}>{c.mascotaEncontradaId}</div>
+                  <div style={{ fontSize: '13px', fontWeight: '500', color: 'var(--text-primary)' }}>{getNombre(c.mascotaEncontradaId)}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{getRaza(c.mascotaEncontradaId)} · {getColor(c.mascotaEncontradaId)}</div>
                 </td>
                 <td style={{ padding: '14px 16px', borderBottom: '0.5px solid var(--orange-border)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
