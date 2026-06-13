@@ -16,6 +16,7 @@ public class Mascota {
     private String tamano;
     private String descripcion;
     private LocalDateTime fechaReporte;
+    private LocalDateTime fechaDesaparicion;
     private String estado;
     private String foto;
     private String contacto;
