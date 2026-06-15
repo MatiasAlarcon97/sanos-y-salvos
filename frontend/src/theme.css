@@ -1,0 +1,31 @@
+:root {
+  --orange-primary: #FF7043;
+  --orange-dark: #E64A19;
+  --orange-light: #FFD0B0;
+  --orange-bg: #FFF8F0;
+  --orange-border: #FFE0B2;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --text-muted: #9E9E9E;
+  --white: #ffffff;
+  --badge-lost-bg: #FCEBEB;
+  --badge-lost-text: #A32D2D;
+  --badge-found-bg: #EAF3DE;
+  --badge-found-text: #3B6D11;
+}
+
+[data-theme="dark"] {
+  --orange-primary: #E64A19;
+  --orange-dark: #BF360C;
+  --orange-light: #3D3D3A;
+  --orange-bg: #1E1E1E;
+  --orange-border: #3D3D3A;
+  --text-primary: #F5F5F5;
+  --text-secondary: #9E9E9E;
+  --text-muted: #757575;
+  --white: #2C2C2A;
+  --badge-lost-bg: #4A1B0C;
+  --badge-lost-text: #FF8A65;
+  --badge-found-bg: #173404;
+  --badge-found-text: #81C784;
+}
