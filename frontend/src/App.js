@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import MascotasPage from './pages/MascotasPage';
 import ReportarPage from './pages/ReportarPage';
 import CoincidenciasPage from './pages/CoincidenciasPage';
+import DetallePage from './pages/DetallePage';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<MascotasPage />} />
           <Route path="/reportar" element={<ReportarPage />} />
           <Route path="/coincidencias" element={<CoincidenciasPage />} />
+          <Route path="/detalle/:id" element={<DetallePage />} />
         </Routes>
       </div>
     </BrowserRouter>

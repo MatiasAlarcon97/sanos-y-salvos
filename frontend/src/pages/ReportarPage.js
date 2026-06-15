@@ -5,6 +5,7 @@ import MapaPicker from '../components/MapaPicker';
 
 function ReportarPage() {
   const navigate = useNavigate();
+  const [reporteCreado, setReporteCreado] = useState(null);
   const [form, setForm] = useState({
     nombre: '',
     raza: '',
@@ -31,9 +32,8 @@ function ReportarPage() {
       ...form,
       fechaDesaparicion: form.fechaDesaparicion ? `${form.fechaDesaparicion}T00:00:00` : null,
     };
-    console.log('Datos a enviar:', datos);
     crearMascota(datos)
-      .then(() => navigate('/'))
+      .then(response => setReporteCreado(response.data))
       .catch(error => console.error('Error al crear mascota:', error));
   };
 
@@ -54,6 +54,29 @@ function ReportarPage() {
     marginBottom: '5px',
     display: 'block',
   };
+  if (reporteCreado) {
+    return (
+      <div style={{ padding: '60px 32px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+        <div style={{ fontSize: '48px' }}>🐾</div>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', color: 'var(--text-primary)' }}>¡Reporte creado exitosamente!</h2>
+        <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Guarda este ID para buscar tu reporte y ver coincidencias:</p>
+        <div style={{ background: 'var(--white)', border: '0.5px solid var(--orange-light)', borderRadius: '8px', padding: '14px 24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontSize: '15px', fontWeight: '500', color: 'var(--orange-dark)', fontFamily: 'monospace' }}>{reporteCreado.id}</span>
+          <button onClick={() => navigator.clipboard.writeText(reporteCreado.id)} style={{ padding: '4px 10px', border: '0.5px solid var(--orange-light)', borderRadius: '6px', fontSize: '12px', background: 'var(--white)', color: 'var(--orange-dark)', cursor: 'pointer' }}>
+            Copiar
+          </button>
+        </div>
+        <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+          <button onClick={() => navigate('/')} style={{ padding: '8px 20px', background: 'var(--orange-primary)', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>
+            Ver todos los reportes
+          </button>
+          <button onClick={() => navigate(`/detalle/${reporteCreado.id}`)} style={{ padding: '8px 20px', background: 'var(--white)', color: 'var(--orange-dark)', border: '0.5px solid var(--orange-light)', borderRadius: '8px', fontSize: '13px', cursor: 'pointer' }}>
+            Ver coincidencias
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: '28px 32px' }}>
