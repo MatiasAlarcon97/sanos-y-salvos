@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { crearMascota } from '../services/mascotaService';
+import { registrarGeolocalizacion } from '../services/geolocalizacionService';
 import MapaPicker from '../components/MapaPicker';
 
 function ReportarPage() {
@@ -33,7 +34,19 @@ function ReportarPage() {
       fechaDesaparicion: form.fechaDesaparicion ? `${form.fechaDesaparicion}T00:00:00` : null,
     };
     crearMascota(datos)
-      .then(response => setReporteCreado(response.data))
+      .then(response => {
+        const mascotaCreada = response.data;
+        setReporteCreado(mascotaCreada);
+
+        if (form.latitud && form.longitud) {
+          registrarGeolocalizacion({
+            reporteId: mascotaCreada.id,
+            latitud: form.latitud,
+            longitud: form.longitud,
+            descripcion: form.descripcion || 'Ubicación del reporte'
+          }).catch(error => console.error('Error al registrar geolocalización:', error));
+        }
+      })
       .catch(error => console.error('Error al crear mascota:', error));
   };
 
