@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# Frontend — Sanos y Salvos
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicación web desarrollada en React para reportar y buscar mascotas perdidas o encontradas.
 
-## Available Scripts
+## Tecnologías
 
-In the project directory, you can run:
+- React 18
+- React Router DOM — navegación entre páginas
+- Axios — comunicación con el API Gateway
+- Leaflet (vía CDN) — mapa interactivo para marcar ubicaciones
 
-### `npm start`
+## Requisitos previos
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Node.js** 18 o superior — descarga: https://nodejs.org
+- Verificar instalación: `node --version`
+- El backend (microservicios + API Gateway) debe estar corriendo para que la aplicación funcione con datos reales. Ver instrucciones en el README principal del proyecto.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Instalación
 
-### `npm test`
+```bash
+cd frontend
+npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Si al ejecutar `npm install` aparece un error de permisos en PowerShell (`la ejecución de scripts está deshabilitada en este sistema`), ejecuta una vez:
+```bash
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+Confirma con `S` y vuelve a intentar `npm install`.
 
-### `npm run build`
+## Ejecución
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+La aplicación se abre automáticamente en `http://localhost:3000`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Scripts disponibles (`package.json`)
 
-### `npm run eject`
+| Script | Comando | Descripción |
+|---|---|---|
+| Iniciar en desarrollo | `npm start` | Levanta el servidor de desarrollo con recarga automática |
+| Compilar para producción | `npm run build` | Genera la versión optimizada en la carpeta `build/` |
+| Ejecutar pruebas | `npm test` | Ejecuta las pruebas configuradas con Jest/React Testing Library |
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Cómo probar la aplicación
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Asegúrate de tener el backend completo corriendo (los 3 microservicios + API Gateway en el puerto 8080).
+2. Ejecuta `npm start` y abre `http://localhost:3000`.
+3. **Probar el listado:** la página principal (`/`) debe mostrar las mascotas registradas, con estadísticas y filtros funcionales.
+4. **Probar el reporte:** ve a `/reportar`, completa el formulario, marca un punto en el mapa y haz clic en "Guardar reporte". Debe redirigir a una pantalla de confirmación con un ID de reporte.
+5. **Probar la búsqueda por ID:** copia ese ID y ve a `/detalle/:id` (o usa el botón "Ver coincidencias" de la pantalla de confirmación) para ver el detalle del reporte y sus coincidencias asociadas.
+6. **Probar las coincidencias:** ve a `/coincidencias` y verifica que se listen las coincidencias detectadas automáticamente entre mascotas perdidas y encontradas.
+7. **Probar el modo oscuro:** usa el botón ☾/☀ en el navbar para alternar entre modo claro y oscuro.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Estructura del proyecto
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+frontend/
+├── public/
+│   └── index.html              # Carga Leaflet vía CDN
+├── src/
+│   ├── components/
+│   │   ├── Navbar.js           # Barra de navegación y toggle de tema
+│   │   └── MapaPicker.js       # Mapa interactivo (Leaflet)
+│   ├── pages/
+│   │   ├── MascotasPage.js     # Página principal (listado)
+│   │   ├── ReportarPage.js     # Formulario de reporte con mapa
+│   │   ├── CoincidenciasPage.js # Tabla de coincidencias
+│   │   └── DetallePage.js      # Búsqueda de reporte por ID
+│   ├── services/
+│   │   ├── mascotaService.js          # Llamadas HTTP a /mascotas
+│   │   ├── geolocalizacionService.js  # Llamadas HTTP a /geoloc
+│   │   └── coincidenciaService.js     # Llamadas HTTP a /coincidencias
+│   ├── App.js      # Rutas (React Router) y control de tema
+│   ├── theme.css   # Variables CSS para modo claro/oscuro
+│   └── index.js    # Punto de entrada de la aplicación
+└── package.json    # Dependencias y scripts NPM
+```
 
-## Learn More
+## Conexión con el backend
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Todas las peticiones se realizan contra el API Gateway en `http://localhost:8080`, definido en cada archivo de `src/services/`. El Gateway enruta automáticamente cada petición al microservicio correspondiente (`/mascotas`, `/geoloc`, `/coincidencias`).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Permisos del navegador
 
-### Code Splitting
+Para que el mapa detecte la ubicación actual automáticamente, el navegador debe tener permiso de geolocalización habilitado para `localhost:3000`. Si fue bloqueado previamente:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Chrome:** `chrome://settings/content/location`
+- **Opera:** `opera://settings/content/location`
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Busca `localhost:3000`, elimínalo de la lista de bloqueados y recarga la página.
