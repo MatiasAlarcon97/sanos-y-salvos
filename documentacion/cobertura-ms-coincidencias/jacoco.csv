@@ -1,0 +1,4 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+ms-coincidencias,com.sanosysalvos.coincidencias,CoincidenciasApplication,5,3,0,0,2,1,1,1,1,1
+ms-coincidencias,com.sanosysalvos.coincidencias.controller,CoincidenciaController,0,34,0,0,0,8,0,4,0,4
+ms-coincidencias,com.sanosysalvos.coincidencias.service,CoincidenciaService,0,51,0,0,0,11,0,5,0,5
