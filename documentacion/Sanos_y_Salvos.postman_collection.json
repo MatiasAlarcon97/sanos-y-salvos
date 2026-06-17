@@ -1,0 +1,276 @@
+{
+  "info": {
+    "name": "Sanos y Salvos - API Collection",
+    "description": "Colección de endpoints de la plataforma Sanos y Salvos. Todas las peticiones pasan a través del API Gateway en http://localhost:8080.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Mascotas (ms-mascotas)",
+      "item": [
+        {
+          "name": "Crear mascota perdida",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "http://localhost:8080/mascotas", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["mascotas"] },
+            "body": { "mode": "raw", "raw": "{\n    \"nombre\": \"Firulais\",\n    \"raza\": \"Labrador\",\n    \"color\": \"Amarillo\",\n    \"tamano\": \"Grande\",\n    \"descripcion\": \"Perro amigable con collar azul\",\n    \"estado\": \"perdida\",\n    \"contacto\": \"912345678\",\n    \"fechaDesaparicion\": \"2026-06-10T00:00:00\"\n}" },
+            "description": "Crea un reporte de mascota perdida. Asigna fechaReporte automáticamente y dispara búsqueda de coincidencias."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"69dee0a2b8341ab8b85c2fce\",\n    \"nombre\": \"Firulais\",\n    \"raza\": \"Labrador\",\n    \"color\": \"Amarillo\",\n    \"tamano\": \"Grande\",\n    \"descripcion\": \"Perro amigable con collar azul\",\n    \"fechaReporte\": \"2026-06-15T20:49:38.685\",\n    \"fechaDesaparicion\": \"2026-06-10T00:00:00\",\n    \"estado\": \"perdida\",\n    \"foto\": null,\n    \"contacto\": \"912345678\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Listar todas las mascotas",
+          "request": {
+            "method": "GET", "header": [],
+            "url": { "raw": "http://localhost:8080/mascotas", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["mascotas"] },
+            "description": "Retorna todas las mascotas reportadas."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n    {\n        \"id\": \"69dee0a2b8341ab8b85c2fce\",\n        \"nombre\": \"Firulais\",\n        \"raza\": \"Labrador\",\n        \"color\": \"Amarillo\",\n        \"tamano\": \"Grande\",\n        \"descripcion\": \"Perro amigable con collar azul\",\n        \"fechaReporte\": \"2026-04-14T20:49:38.685\",\n        \"estado\": \"perdida\",\n        \"foto\": null,\n        \"contacto\": \"912345678\"\n    },\n    {\n        \"id\": \"69faa9714b521e33efcbc969\",\n        \"nombre\": \"Max\",\n        \"raza\": \"Golden Retriever\",\n        \"color\": \"Dorado\",\n        \"tamano\": \"Grande\",\n        \"descripcion\": \"Perro con mancha blanca en la pata derecha\",\n        \"fechaReporte\": \"2026-05-05T22:37:37.059\",\n        \"estado\": \"encontrada\",\n        \"foto\": null,\n        \"contacto\": \"987654321\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener mascota por ID",
+          "request": {
+            "method": "GET", "header": [],
+            "url": { "raw": "http://localhost:8080/mascotas/69dee0a2b8341ab8b85c2fce", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["mascotas", "69dee0a2b8341ab8b85c2fce"] },
+            "description": "Retorna una mascota específica por su ID."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"69dee0a2b8341ab8b85c2fce\",\n    \"nombre\": \"Firulais\",\n    \"raza\": \"Labrador\",\n    \"color\": \"Amarillo\",\n    \"tamano\": \"Grande\",\n    \"descripcion\": \"Perro amigable con collar azul\",\n    \"fechaReporte\": \"2026-04-14T20:49:38.685\",\n    \"estado\": \"perdida\",\n    \"foto\": null,\n    \"contacto\": \"912345678\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found", "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [], "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Actualizar mascota",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "http://localhost:8080/mascotas/69faa9714b521e33efcbc969", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["mascotas", "69faa9714b521e33efcbc969"] },
+            "body": { "mode": "raw", "raw": "{\n    \"nombre\": \"Max\",\n    \"raza\": \"Golden Retriever\",\n    \"color\": \"Dorado\",\n    \"tamano\": \"Grande\",\n    \"descripcion\": \"Perro con mancha blanca en pata derecha, tiene collar rojo\",\n    \"estado\": \"encontrada\",\n    \"contacto\": \"987654321\"\n}" },
+            "description": "Actualiza los datos de una mascota existente."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"69faa9714b521e33efcbc969\",\n    \"nombre\": \"Max\",\n    \"raza\": \"Golden Retriever\",\n    \"color\": \"Dorado\",\n    \"tamano\": \"Grande\",\n    \"descripcion\": \"Perro con mancha blanca en pata derecha, tiene collar rojo\",\n    \"fechaReporte\": \"2026-05-05T22:37:37.059\",\n    \"estado\": \"encontrada\",\n    \"foto\": null,\n    \"contacto\": \"987654321\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found", "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [], "body": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Geolocalización (ms-geolocalizacion)",
+      "item": [
+        {
+          "name": "Registrar geolocalización",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "http://localhost:8080/geoloc", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["geoloc"] },
+            "body": { "mode": "raw", "raw": "{\n    \"reporteId\": \"69dee0a2b8341ab8b85c2fce\",\n    \"latitud\": -33.4489,\n    \"longitud\": -70.6693,\n    \"descripcion\": \"Visto cerca del parque O'Higgins\"\n}" },
+            "description": "Registra la ubicación de avistamiento. Asigna timestamp y estado 'activo' automáticamente."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"6a01a1b2c3d4e5f6a7b8c9d0\",\n    \"reporteId\": \"69dee0a2b8341ab8b85c2fce\",\n    \"latitud\": -33.4489,\n    \"longitud\": -70.6693,\n    \"timestamp\": \"2026-06-15T20:55:12.123\",\n    \"descripcion\": \"Visto cerca del parque O'Higgins\",\n    \"estado\": \"activo\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Listar geolocalizaciones",
+          "request": {
+            "method": "GET", "header": [],
+            "url": { "raw": "http://localhost:8080/geoloc", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["geoloc"] },
+            "description": "Retorna todas las geolocalizaciones registradas."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n    {\n        \"id\": \"6a01a1b2c3d4e5f6a7b8c9d0\",\n        \"reporteId\": \"69dee0a2b8341ab8b85c2fce\",\n        \"latitud\": -33.4489,\n        \"longitud\": -70.6693,\n        \"timestamp\": \"2026-06-15T20:55:12.123\",\n        \"descripcion\": \"Visto cerca del parque O'Higgins\",\n        \"estado\": \"activo\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener geolocalización por reporteId",
+          "request": {
+            "method": "GET", "header": [],
+            "url": { "raw": "http://localhost:8080/geoloc/69dee0a2b8341ab8b85c2fce", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["geoloc", "69dee0a2b8341ab8b85c2fce"] },
+            "description": "Retorna la geolocalización asociada a un reporte específico."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"6a01a1b2c3d4e5f6a7b8c9d0\",\n    \"reporteId\": \"69dee0a2b8341ab8b85c2fce\",\n    \"latitud\": -33.4489,\n    \"longitud\": -70.6693,\n    \"timestamp\": \"2026-06-15T20:55:12.123\",\n    \"descripcion\": \"Visto cerca del parque O'Higgins\",\n    \"estado\": \"activo\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found", "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [], "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Actualizar geolocalización",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "http://localhost:8080/geoloc/69dee0a2b8341ab8b85c2fce", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["geoloc", "69dee0a2b8341ab8b85c2fce"] },
+            "body": { "mode": "raw", "raw": "{\n    \"latitud\": -33.45,\n    \"longitud\": -70.67,\n    \"descripcion\": \"Visto nuevamente, dos cuadras al norte del parque\",\n    \"estado\": \"activo\"\n}" },
+            "description": "Actualiza la ubicación o descripción de un avistamiento."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"6a01a1b2c3d4e5f6a7b8c9d0\",\n    \"reporteId\": \"69dee0a2b8341ab8b85c2fce\",\n    \"latitud\": -33.45,\n    \"longitud\": -70.67,\n    \"timestamp\": \"2026-06-15T20:55:12.123\",\n    \"descripcion\": \"Visto nuevamente, dos cuadras al norte del parque\",\n    \"estado\": \"activo\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found", "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [], "body": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Coincidencias (ms-coincidencias)",
+      "item": [
+        {
+          "name": "Listar coincidencias",
+          "request": {
+            "method": "GET", "header": [],
+            "url": { "raw": "http://localhost:8080/coincidencias", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["coincidencias"] },
+            "description": "Retorna todas las coincidencias detectadas entre mascotas."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n    {\n        \"id\": \"69e6fab4345b6498722ea7f6\",\n        \"mascotaPerdidaId\": \"69dee0a2b8341ab8b85c2fce\",\n        \"mascotaEncontradaId\": \"69faa9714b521e33efcbc969\",\n        \"porcentajeSimilitud\": 100.0,\n        \"fechaCoincidencia\": \"2026-06-15T21:00:00.748\",\n        \"estado\": \"pendiente\",\n        \"observaciones\": \"Misma raza. Mismo color. Mismo tamaño.\",\n        \"fechaActualizacion\": \"2026-06-15T21:00:00.748\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener coincidencia por ID",
+          "request": {
+            "method": "GET", "header": [],
+            "url": { "raw": "http://localhost:8080/coincidencias/69e6fab4345b6498722ea7f6", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["coincidencias", "69e6fab4345b6498722ea7f6"] },
+            "description": "Retorna una coincidencia específica por su ID."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"69e6fab4345b6498722ea7f6\",\n    \"mascotaPerdidaId\": \"69dee0a2b8341ab8b85c2fce\",\n    \"mascotaEncontradaId\": \"69faa9714b521e33efcbc969\",\n    \"porcentajeSimilitud\": 100.0,\n    \"fechaCoincidencia\": \"2026-06-15T21:00:00.748\",\n    \"estado\": \"pendiente\",\n    \"observaciones\": \"Misma raza. Mismo color. Mismo tamaño.\",\n    \"fechaActualizacion\": \"2026-06-15T21:00:00.748\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found", "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [], "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Crear coincidencia (manual)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "http://localhost:8080/coincidencias", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["coincidencias"] },
+            "body": { "mode": "raw", "raw": "{\n    \"mascotaPerdidaId\": \"69dee0a2b8341ab8b85c2fce\",\n    \"mascotaEncontradaId\": \"69faa9714b521e33efcbc969\",\n    \"porcentajeSimilitud\": 100.0,\n    \"estado\": \"pendiente\",\n    \"observaciones\": \"Misma raza. Mismo color. Mismo tamaño.\"\n}" },
+            "description": "Crea una coincidencia manualmente. Normalmente es automático al crear una mascota."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"69e6fab4345b6498722ea7f6\",\n    \"mascotaPerdidaId\": \"69dee0a2b8341ab8b85c2fce\",\n    \"mascotaEncontradaId\": \"69faa9714b521e33efcbc969\",\n    \"porcentajeSimilitud\": 100.0,\n    \"fechaCoincidencia\": \"2026-06-15T21:00:00.748\",\n    \"estado\": \"pendiente\",\n    \"observaciones\": \"Misma raza. Mismo color. Mismo tamaño.\",\n    \"fechaActualizacion\": \"2026-06-15T21:00:00.748\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Confirmar coincidencia",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "http://localhost:8080/coincidencias/69e6fab4345b6498722ea7f6", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["coincidencias", "69e6fab4345b6498722ea7f6"] },
+            "body": { "mode": "raw", "raw": "{\n    \"porcentajeSimilitud\": 100.0,\n    \"estado\": \"confirmada\",\n    \"observaciones\": \"Confirmado por ambos usuarios, mascota reunida con su familia\"\n}" },
+            "description": "Actualiza el estado de una coincidencia de 'pendiente' a 'confirmada'."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK", "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": \"69e6fab4345b6498722ea7f6\",\n    \"mascotaPerdidaId\": \"69dee0a2b8341ab8b85c2fce\",\n    \"mascotaEncontradaId\": \"69faa9714b521e33efcbc969\",\n    \"porcentajeSimilitud\": 100.0,\n    \"fechaCoincidencia\": \"2026-06-15T21:00:00.748\",\n    \"estado\": \"confirmada\",\n    \"observaciones\": \"Confirmado por ambos usuarios, mascota reunida con su familia\",\n    \"fechaActualizacion\": \"2026-06-15T21:10:45.302\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found", "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [], "body": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
